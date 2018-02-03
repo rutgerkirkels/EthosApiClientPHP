@@ -1,7 +1,7 @@
 {
     "name": "rutgerkirkels/ethos-api-client",
     "description": "A PHP client to connect to your ethOS mining rig through the Ethos Panel API",
-    "homepage": "https://github.com/rkirkels/ethos-api-client",
+    "homepage": "https://github.com/rutgerkirkels/ethos-api-client",
     "keywords": ["ethos", "ethosdistro", "client", "mining"],
     "license": "MIT",
     "type": "library",
