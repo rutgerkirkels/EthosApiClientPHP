@@ -5,6 +5,10 @@ namespace RutgerKirkels\Ethos_Api_Client;
 
 class Gpu
 {
+    /**
+     * @var string
+     */
+    protected $type;
     protected $bios;
     protected $hash;
     protected $temperature;
@@ -157,6 +161,22 @@ class Gpu
     public function setMemorySpeed($memorySpeed): void
     {
         $this->memorySpeed = $memorySpeed;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
 

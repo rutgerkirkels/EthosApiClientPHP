@@ -2,23 +2,45 @@
 
 namespace RutgerKirkels\Ethos_Api_Client;
 
-define('ETHOS_HOST','ethosdistro.com');
+use GuzzleHttp\Exception\ConnectException;
 
+/**
+ * Class Client
+ * @package RutgerKirkels\Ethos_Api_Client
+ */
 class Client
 {
+    const ETHOS_HOST = 'ethosdistro.com';
     protected $panelId;
-    protected $cacheTime = 300; // Default cache time is 5 minutes
+    protected $cacheTime;
 
-    public function __construct($panelId = null) {
+    /**
+     * @var bool
+     */
+    protected $enableCaching;
+
+    public function __construct($panelId = null, $enableCaching = false) {
         if (!is_null($panelId)) {
             $this->panelId = $panelId;
         }
+
+        if ($enableCaching === true) {
+            $this->enableCaching();
+        }
+    }
+
+    public function enableCaching(int $seconds = 300) {
+        $this->cacheTime = $seconds;
     }
 
     public function setPanelId(string $panelId) {
         $this->panelId = $panelId;
     }
 
+    /**
+     * @return object
+     * @throws \Exception
+     */
     protected function getData() {
         if (is_null($this->panelId)) {
             throw new \Exception('No panel ID set.');
@@ -31,20 +53,34 @@ class Client
             $fileAge = $fileTime->diff(new \DateTime())->i;
         }
 
-
-        if (file_exists('/tmp/minerdata_' . $this->panelId . '.json') && $fileAge < ($this->cacheTime/60) + 1) {
-            return json_decode(file_get_contents('/tmp/minerdata_' . $this->panelId . '.json'));
+        if (!is_null($this->cacheTime)) {
+            if (file_exists('/tmp/minerdata_' . $this->panelId . '.json') && $fileAge < ($this->cacheTime/60) + 1) {
+                return json_decode(file_get_contents('/tmp/minerdata_' . $this->panelId . '.json'));
+            }
         }
 
         $client = new \GuzzleHttp\Client();
-        $url = 'http://' .$this->panelId . '.' . ETHOS_HOST;
-        $res = $client->request('get', $url, [
-            'query' => ['json' => 'yes']
-        ]);
+        $url = 'http://' .$this->panelId . '.' . self::ETHOS_HOST;
+        try {
+            $res = $client->request('get', $url, [
+                'query' => ['json' => 'yes']
+            ]);
+        }
+
+        catch (ConnectException $e) {
+            error_log('Unable to connect to ' . $url, E_USER_WARNING);
+            return false;
+        }
+
+
         file_put_contents('/tmp/minerdata_' . $this->panelId . '.json', (string) $res->getBody());
         return json_decode((string) $res->getBody());
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function getStats() {
         $miners = [];
         $data = $this->getData();
@@ -57,7 +93,7 @@ class Client
             $miner->setDriveName($minerData->drive_name);
             $miner->setLanChip($minerData->lan_chip);
             $miner->setMotherboard($minerData->mobo);
-            $miner->setTotalRam($minerData->ram);
+            $miner->setRam($minerData->ram);
             $miner->setVersion($minerData->version);
             $bios = explode(' ', $minerData->bioses);
             $hash = explode(' ', $minerData->miner_hashes);
@@ -87,15 +123,11 @@ class Client
         return $miners;
     }
 
-    public function getStatsByMiner($ethosId) {
-        $data = $this->getData();
-        foreach ($data->rigs as $id => $minerData) {
-            if ($id == $ethosId) {
-                $miner = new Miner();
-            }
-        }
-    }
-
+    /**
+     * @param string $ethosId
+     * @return array
+     * @throws \Exception
+     */
     public function scanGpus(string $ethosId) {
         $data = $this->getData();
 
@@ -127,27 +159,56 @@ class Client
         return $gpus;
     }
 
-    public function scanMiner($ethosId, $panelId = null) {
-        if (is_null($panelId)) {
-            $this->panelId = $ethosId;
-        }
-        else {
+    /**
+     * @param $ethosId
+     * @param null $panelId
+     * @return bool|Miner
+     * @throws \Exception
+     */
+    public function getMiner($ethosId, $panelId = null) {
+        if (!is_null($panelId)) {
             $this->panelId = $panelId;
         }
+
         $data = $this->getData();
+
+        if (!$data) {
+            return false;
+        }
         if (!isset($data->rigs->$ethosId)) {
             throw new \Exception('Miner with ethOS ID ' . $ethosId . ' couldn\'t be found.');
         }
         $minerData = $data->rigs->$ethosId;
         $miner = new Miner();
+        $miner->setId($ethosId);
         $miner->setMotherboard($minerData->mobo);
-        $miner->setTotalRam($minerData->ram);
+        $miner->setRam($minerData->ram);
         $miner->setLanChip($minerData->lan_chip);
         $miner->setDriveName($minerData->drive_name);
         $miner->setTotalHashrate($minerData->hash);
+        $miner->setCondition($minerData->condition);
+        $miner->setVersion($minerData->version);
+
+        foreach ($this->scanGpus($ethosId) as $data) {
+            $gpu = new Gpu();
+            $gpu->setType($data->type);
+            $gpu->setBios($data->bios);
+            $gpu->setFanSpeed($data->fanRpm);
+            $gpu->setHash($data->hashRate);
+            $gpu->setTemperature($data->temperature);
+            $gpu->setPower($data->power);
+            $gpu->setCoreSpeed($data->core);
+            $gpu->setMemorySpeed($data->mem);
+            $gpu->setVramSize($data->vramSize);
+            $miner->addGpu($gpu);
+        }
         return $miner;
     }
 
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function getTotalHashrate() {
         $data = $this->getData();
         return $data->total_hash;
