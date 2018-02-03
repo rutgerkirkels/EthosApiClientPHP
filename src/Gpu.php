@@ -2,16 +2,36 @@
 
 namespace RutgerKirkels\Ethos_Api_Client;
 
-
+/**
+ * Class Gpu
+ * @package RutgerKirkels\Ethos_Api_Client
+ * @author Rutger Kirkels <rutger@kirkels.nl>
+ */
 class Gpu
 {
     /**
      * @var string
      */
     protected $type;
+
+    /**
+     * @var string
+     */
     protected $bios;
+
+    /**
+     * @var float
+     */
     protected $hash;
+
+    /**
+     * @var int
+     */
     protected $temperature;
+
+    /**
+     * @var int
+     */
     protected $power;
     protected $fanSpeed;
     protected $vramSize;
@@ -36,17 +56,17 @@ class Gpu
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getHash()
+    public function getHash() : float
     {
         return $this->hash;
     }
 
     /**
-     * @param mixed $hash
+     * @param float $hash
      */
-    public function setHash($hash): void
+    public function setHash(float $hash): void
     {
         $this->hash = $hash;
     }
@@ -68,17 +88,17 @@ class Gpu
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPower()
+    public function getPower() : int
     {
         return $this->power;
     }
 
     /**
-     * @param mixed $power
+     * @param int $power
      */
-    public function setPower($power): void
+    public function setPower(int $power): void
     {
         $this->power = $power;
     }

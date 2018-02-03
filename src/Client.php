@@ -7,6 +7,8 @@ use GuzzleHttp\Exception\ConnectException;
 /**
  * Class Client
  * @package RutgerKirkels\Ethos_Api_Client
+ * @author Rutger Kirkels <rutger@kirkels.nl>
+ * @license
  */
 class Client
 {
@@ -19,7 +21,12 @@ class Client
      */
     protected $enableCaching;
 
-    public function __construct($panelId = null, $enableCaching = false) {
+    /**
+     * Client constructor.
+     * @param string|null $panelId
+     * @param bool $enableCaching
+     */
+    public function __construct(string $panelId = null, $enableCaching = false) {
         if (!is_null($panelId)) {
             $this->panelId = $panelId;
         }
@@ -29,10 +36,16 @@ class Client
         }
     }
 
+    /**
+     * @param int $seconds
+     */
     public function enableCaching(int $seconds = 300) {
         $this->cacheTime = $seconds;
     }
 
+    /**
+     * @param string $panelId
+     */
     public function setPanelId(string $panelId) {
         $this->panelId = $panelId;
     }
@@ -157,6 +170,19 @@ class Client
             $gpus[$id]->vramSize = floatval($gpuVramSizes[$id]);
         }
         return $gpus;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function getAllMiners() {
+        $data = $this->getData();
+        $miners = [];
+        foreach ($data->rigs as $rigId => $rigData) {
+            $miners[] = $this->getMiner($rigId);
+        }
+        return $miners;
     }
 
     /**

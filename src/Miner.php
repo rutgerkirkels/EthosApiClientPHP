@@ -2,21 +2,57 @@
 
 namespace RutgerKirkels\Ethos_Api_Client;
 
-
+/**
+ * Class Miner
+ * @package RutgerKirkels\Ethos_Api_Client
+ * @author Rutger Kirkels <rutger@kirkels.nl>
+ */
 class Miner
 {
     /**
      * @var string
      */
     protected $id;
+
+    /**
+     * @var string
+     */
     protected $motherboard;
+
+    /**
+     * @var string
+     */
     protected $driveName;
+
+    /**
+     * @var string
+     */
     protected $lanChip;
+
+    /**
+     * @var string
+     */
     protected $version;
+
+    /**
+     * @var string
+     */
     protected $condition;
+
+    /**
+     * @var int
+     */
     protected $ram;
+
+    /**
+     * @var float
+     */
     protected $totalHashrate;
-    protected $gpus = [];
+
+    /**
+     * @var array
+     */
+    protected $gpus;
 
     /**
      * @return string
@@ -131,17 +167,17 @@ class Miner
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getRam()
+    public function getRam() : int
     {
         return $this->ram;
     }
 
     /**
-     * @param mixed $totalRam
+     * @param $ram
      */
-    public function setRam($ram): void
+    public function setRam(int $ram): void
     {
         $this->ram = $ram;
     }
