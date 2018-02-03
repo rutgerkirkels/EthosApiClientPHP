@@ -47,7 +47,7 @@ class Miner
     /**
      * @var float
      */
-    protected $totalHashrate;
+    protected $hashrate;
 
     /**
      * @var array
@@ -185,17 +185,17 @@ class Miner
     /**
      * @return mixed
      */
-    public function getTotalHashrate()
+    public function getHashrate()
     {
-        return $this->totalHashrate;
+        return $this->hashrate;
     }
 
     /**
      * @param mixed $totalHashrate
      */
-    public function setTotalHashrate($totalHashrate): void
+    public function setHashrate($hashrate): void
     {
-        $this->totalHashrate = $totalHashrate;
+        $this->hashrate = $hashrate;
     }
 
     /**

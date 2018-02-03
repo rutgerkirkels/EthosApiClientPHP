@@ -101,7 +101,7 @@ class Client
         foreach ($data->rigs as $ethosId => $minerData) {
             $miner = new Miner();
             $miner->setId($ethosId);
-            $miner->setTotalHashrate($minerData->hash);
+            $miner->setHashrate($minerData->hash);
             $miner->setCondition($minerData->condition);
             $miner->setDriveName($minerData->drive_name);
             $miner->setLanChip($minerData->lan_chip);
@@ -211,7 +211,7 @@ class Client
         $miner->setRam($minerData->ram);
         $miner->setLanChip($minerData->lan_chip);
         $miner->setDriveName($minerData->drive_name);
-        $miner->setTotalHashrate($minerData->hash);
+        $miner->setHashrate($minerData->hash);
         $miner->setCondition($minerData->condition);
         $miner->setVersion($minerData->version);
 
