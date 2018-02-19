@@ -152,22 +152,25 @@ class Client
         $gpuCores = explode(' ', $data->rigs->$ethosId->core);
         $gpuMems = explode(' ', $data->rigs->$ethosId->mem);
         $gpuVramSizes = explode(' ', $data->rigs->$ethosId->vramsize);
+        $gpuPowertunes = explode(' ', $data->rigs->$ethosId->powertune);
         $gpus = [];
+
+        $id = 0;
         foreach ($gpuStrings as $gpuString) {
             $gpuInfo = explode(':', $gpuString);
-            $gpu = new \stdClass();
-            $gpu->type = $gpuInfo[3];
-            $gpu->bios = $gpuInfo[4];
-            $gpus[] = $gpu;
-        }
-        foreach ($gpus as $id => $gpu) {
-            $gpus[$id]->fanRpm = intval($gpuFanspeeds[$id]);
-            $gpus[$id]->hashRate = floatval($gpuHashrates[$id]);
-            $gpus[$id]->temperature = intval($gpuTemperatures[$id]);
-            $gpus[$id]->power = floatval($gpuPower[$id]);
-            $gpus[$id]->core = intval($gpuCores[$id]);
-            $gpus[$id]->mem = intval($gpuMems[$id]);
-            $gpus[$id]->vramSize = floatval($gpuVramSizes[$id]);
+            $gpu = new Gpu();
+            $gpu->setType($gpuInfo[3]);
+            $gpu->setBios($gpuInfo[4]);
+            $gpu->setFanSpeed(intval($gpuFanspeeds[$id]));
+            $gpu->setHash(floatval($gpuHashrates[$id]));
+            $gpu->setTemperature(intval($gpuTemperatures[$id]));
+            $gpu->setPower(floatval($gpuPower[$id]));
+            $gpu->setCoreSpeed(intval($gpuCores[$id]));
+            $gpu->setMemorySpeed(intval($gpuMems[$id]));
+            $gpu->setVramSize(floatval($gpuVramSizes[$id]));
+            $gpu->setPowerTune(intval($gpuPowertunes[$id]));
+            $gpus[$id] = $gpu;
+            $id += 1;
         }
         return $gpus;
     }
