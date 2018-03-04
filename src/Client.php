@@ -259,5 +259,29 @@ class Client
         $this->cacheTime = $cacheTime;
     }
 
+    /**
+     * @param string $ethosId
+     * @return bool|int
+     */
+    public function getMinerUptime(string $ethosId)
+    {
+        $client = new \GuzzleHttp\Client();
+        $url = 'http://' .$this->panelId . '.' . self::ETHOS_HOST;
+        try {
+            $res = $client->request('get', $url, [
+                'query' => ['json' => 'yes']
+            ]);
+        }
 
+        catch (ConnectException $e) {
+            error_log('Unable to connect to ' . $url, E_USER_WARNING);
+            return false;
+        }
+
+        foreach (json_decode((string) $res->getBody())->rigs as $rigId => $data) {
+            if($rigId === $ethosId) {
+                return intval($data->uptime);
+            }
+        }
+    }
 }

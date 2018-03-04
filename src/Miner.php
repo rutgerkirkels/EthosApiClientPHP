@@ -79,7 +79,7 @@ class Miner
     }
 
     /**
-     * @param array $gpus
+     * @param Gpu $gpu
      */
     public function addGpu(Gpu $gpu): void
     {
@@ -87,49 +87,49 @@ class Miner
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getMotherboard()
+    public function getMotherboard() : string
     {
         return $this->motherboard;
     }
 
     /**
-     * @param mixed $motherboard
+     * @param string $motherboard
      */
-    public function setMotherboard($motherboard): void
+    public function setMotherboard(string $motherboard): void
     {
         $this->motherboard = $motherboard;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDriveName()
+    public function getDriveName() : string
     {
         return $this->driveName;
     }
 
     /**
-     * @param mixed $driveName
+     * @param string $driveName
      */
-    public function setDriveName($driveName): void
+    public function setDriveName(string $driveName): void
     {
         $this->driveName = $driveName;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLanChip()
+    public function getLanChip() : string
     {
         return $this->lanChip;
     }
 
     /**
-     * @param mixed $lanChip
+     * @param string $lanChip
      */
-    public function setLanChip($lanChip): void
+    public function setLanChip(string $lanChip): void
     {
         $this->lanChip = $lanChip;
     }
@@ -183,17 +183,17 @@ class Miner
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getHashrate()
+    public function getHashrate() : float
     {
         return $this->hashrate;
     }
 
     /**
-     * @param mixed $totalHashrate
+     * @param float $hashrate
      */
-    public function setHashrate($hashrate): void
+    public function setHashrate(float $hashrate): void
     {
         $this->hashrate = $hashrate;
     }

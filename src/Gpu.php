@@ -33,24 +33,44 @@ class Gpu
      * @var int
      */
     protected $power;
+
+    /**
+     * @var int
+     */
     protected $fanSpeed;
+
+    /**
+     * @var float
+     */
     protected $vramSize;
+
+    /**
+     * @var int
+     */
     protected $powerTune;
+
+    /**
+     * @var int
+     */
     protected $coreSpeed;
+
+    /**
+     * @var int
+     */
     protected $memorySpeed;
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBios()
+    public function getBios() : string
     {
         return $this->bios;
     }
 
     /**
-     * @param mixed $bios
+     * @param string $bios
      */
-    public function setBios($bios): void
+    public function setBios(string $bios): void
     {
         $this->bios = $bios;
     }
@@ -72,17 +92,17 @@ class Gpu
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getTemperature()
+    public function getTemperature() : int
     {
         return $this->temperature;
     }
 
     /**
-     * @param mixed $temperature
+     * @param int $temperature
      */
-    public function setTemperature($temperature): void
+    public function setTemperature(int $temperature): void
     {
         $this->temperature = $temperature;
     }
@@ -104,81 +124,81 @@ class Gpu
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFanSpeed()
+    public function getFanSpeed() : int
     {
         return $this->fanSpeed;
     }
 
     /**
-     * @param mixed $fanSpeed
+     * @param int $fanSpeed
      */
-    public function setFanSpeed($fanSpeed): void
+    public function setFanSpeed(int $fanSpeed): void
     {
         $this->fanSpeed = $fanSpeed;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getVramSize()
+    public function getVramSize() : float
     {
         return $this->vramSize;
     }
 
     /**
-     * @param mixed $vramSize
+     * @param float $vramSize
      */
-    public function setVramSize($vramSize): void
+    public function setVramSize(float $vramSize): void
     {
         $this->vramSize = $vramSize;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPowerTune()
+    public function getPowerTune() : int
     {
         return $this->powerTune;
     }
 
     /**
-     * @param mixed $powerTune
+     * @param int $powerTune
      */
-    public function setPowerTune($powerTune): void
+    public function setPowerTune(int $powerTune): void
     {
         $this->powerTune = $powerTune;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getCoreSpeed()
+    public function getCoreSpeed() : int
     {
         return $this->coreSpeed;
     }
 
     /**
-     * @param mixed $coreSpeed
+     * @param int $coreSpeed
      */
-    public function setCoreSpeed($coreSpeed): void
+    public function setCoreSpeed(int $coreSpeed): void
     {
         $this->coreSpeed = $coreSpeed;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getMemorySpeed()
+    public function getMemorySpeed() : int
     {
         return $this->memorySpeed;
     }
 
     /**
-     * @param mixed $memorySpeed
+     * @param int $memorySpeed
      */
-    public function setMemorySpeed($memorySpeed): void
+    public function setMemorySpeed(int $memorySpeed): void
     {
         $this->memorySpeed = $memorySpeed;
     }
