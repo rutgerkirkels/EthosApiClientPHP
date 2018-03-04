@@ -220,17 +220,7 @@ class Client
         $miner->setUptime(intval($minerData->uptime));
 
         foreach ($this->scanGpus($ethosId) as $data) {
-            $gpu = new Gpu();
-            $gpu->setType($data->type);
-            $gpu->setBios($data->bios);
-            $gpu->setFanSpeed($data->fanRpm);
-            $gpu->setHash($data->hashRate);
-            $gpu->setTemperature($data->temperature);
-            $gpu->setPower($data->power);
-            $gpu->setCoreSpeed($data->core);
-            $gpu->setMemorySpeed($data->mem);
-            $gpu->setVramSize($data->vramSize);
-            $miner->addGpu($gpu);
+            $miner->addGpu($data);
         }
         return $miner;
     }
