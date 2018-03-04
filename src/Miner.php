@@ -55,6 +55,11 @@ class Miner
     protected $gpus;
 
     /**
+     * @var int
+     */
+    protected $uptime;
+
+    /**
      * @return string
      */
     public function getId() : string
@@ -196,6 +201,22 @@ class Miner
     public function setHashrate(float $hashrate): void
     {
         $this->hashrate = $hashrate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUptime(): int
+    {
+        return $this->uptime;
+    }
+
+    /**
+     * @param int $uptime
+     */
+    public function setUptime(int $uptime): void
+    {
+        $this->uptime = $uptime;
     }
 
     /**

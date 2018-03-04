@@ -217,6 +217,7 @@ class Client
         $miner->setHashrate($minerData->hash);
         $miner->setCondition($minerData->condition);
         $miner->setVersion($minerData->version);
+        $miner->setUptime(intval($minerData->uptime));
 
         foreach ($this->scanGpus($ethosId) as $data) {
             $gpu = new Gpu();
